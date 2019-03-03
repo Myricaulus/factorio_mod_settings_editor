@@ -6,11 +6,16 @@ This tool reads or writes factorio mod settings. Reads the settings if no
 parameters are given. Needs to be in the mod directory.
 
 optional arguments:
+
   -h, --help            show this help message and exit
+  
   -s [SETTING], --setting [SETTING]
+  
                         Name of the setting to be edited. Prints also the
                         current value if found.
+                        
   -v [VALUE], --value [VALUE]
+  
                         The value to be set needs to be compatible with the
                         current value.
 
