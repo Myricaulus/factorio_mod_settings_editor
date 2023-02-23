@@ -45,17 +45,18 @@ parser = argparse.ArgumentParser(
     epilog="Remember to Backup your mod-settings.dat before usage!")
 parser.add_argument("-s", "--setting", nargs='?', help="Name of the setting to be edited. Prints also the current value if found.")
 parser.add_argument("-v", "--value", nargs='?', help="The value to be set needs to be compatible with the current value.")
+parser.add_argument("-p", "--path", help="path to mod-setings.dat")
 
 # read arguments from the command line
 args = parser.parse_args()
 
 
 if hasattr(args, 'setting') and args.setting is not None:  # returns False:
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
-    backup_file = Path("mod-settings"+date+".dat")
+    date = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+    backup_file = Path(args.path+"."+date)
     if not backup_file.is_file():
-        shutil.copy2("mod-settings.dat", "mod-settings"+date+".dat")
-    with open("mod-settings.dat", mode="r+b") as file:
+        shutil.copy2(args.path, args.path+"."+date)
+    with open(args.path, mode="r+b") as file:
         data = file.read()
         position = data.find(args.setting.encode("ascii"))
         if position > 0:
@@ -97,7 +98,7 @@ if hasattr(args, 'setting') and args.setting is not None:  # returns False:
         else:
             print(args.setting + " not found!")
 else:
-    with open("mod-settings.dat", mode="rb") as file:
+    with open(args.path, mode="rb") as file:
         file.seek(0x10)
         while print_one_value(file):
             True
